@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Time machine</title>
+  <link rel="preconnect" href="https://web.archive.org" crossorigin>
+  <link rel="dns-prefetch" href="https://web.archive.org">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <img src="icons/icon48.png" width="34" height="34" alt="">
+    <div class="brand-text">
+      <strong>Time machine</strong>
+      <span>capturas de 2025 e 2026</span>
+    </div>
+  </div>
+
+  <form id="searchForm" class="search" autocomplete="off">
+    <input id="q" type="text" inputmode="url" spellcheck="false" placeholder="Digite um site, por exemplo youtube.com" aria-label="Site">
+    <select id="scope" aria-label="Alcance da busca">
+      <option value="page">Esta página</option>
+      <option value="site">Todas as páginas do site</option>
+    </select>
+    <button class="btn primary" type="submit">Buscar capturas</button>
+  </form>
+
+  <div class="top-actions">
+    <label class="check" title="Inclui capturas que o Wayback registrou como redirecionamento (301, 302…). Podem abrir páginas de outro endereço.">
+      <input id="inc" type="checkbox"> Incluir redirecionamentos
+    </label>
+    <button id="btnSave" class="btn" type="button" title="Pede ao Wayback Machine para salvar o site agora">Arquivar agora</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-tab="captures">Capturas</button>
+  <button class="tab" data-tab="photos">Fotos</button>
+  <button class="tab" data-tab="videos">Vídeos</button>
+  <button class="tab" data-tab="library">Biblioteca <span id="libCount" class="count" hidden>0</span></button>
+</nav>
+
+<main>
+
+  <!-- CAPTURAS -->
+  <section id="tab-captures" class="panel">
+    <div id="capStatus" class="status hint">Digite um site acima para ver as capturas.</div>
+
+    <div id="capContent" hidden>
+      <div id="summary" class="summary"></div>
+
+      <div class="toolbar">
+        <div class="seg" id="yearSeg" role="group" aria-label="Ano">
+          <button data-year="all" class="on">2025 e 2026</button>
+          <button data-year="2025">2025</button>
+          <button data-year="2026">2026</button>
+        </div>
+        <div class="seg" id="viewSeg" role="group" aria-label="Modo de exibição">
+          <button data-view="calendar" class="on">Calendário</button>
+          <button data-view="list">Lista</button>
+        </div>
+        <span id="capNote" class="note"></span>
+      </div>
+
+      <div id="calView" class="cap-layout">
+        <div id="calendar" class="calendar"></div>
+        <aside id="dayPanel" class="day-panel"></aside>
+      </div>
+
+      <div id="listView" hidden>
+        <table class="grid-table">
+          <thead><tr><th>Data</th><th>Hora (UTC)</th><th>Status</th><th>Endereço</th><th></th></tr></thead>
+          <tbody id="listBody"></tbody>
+        </table>
+        <div class="center"><button id="listMore" class="btn" hidden>Mostrar mais</button></div>
+      </div>
+    </div>
+
+    <div id="pagesView" hidden>
+      <p class="note">Páginas deste site com capturas em 2025–2026. Escolha uma para ver todas as capturas dela.</p>
+      <table class="grid-table">
+        <thead><tr><th>Endereço</th><th>Primeira captura no período</th><th></th></tr></thead>
+        <tbody id="pagesBody"></tbody>
+      </table>
+      <div class="center"><button id="pagesMore" class="btn" hidden>Carregar mais páginas</button></div>
+    </div>
+  </section>
+
+  <!-- FOTOS -->
+  <section id="tab-photos" class="panel" hidden>
+    <div id="photoStatus" class="status hint">Digite um site acima para ver as fotos arquivadas.</div>
+    <div id="photoGrid" class="tiles"></div>
+    <div class="center"><button id="photoMore" class="btn" hidden>Carregar mais fotos</button></div>
+  </section>
+
+  <!-- VÍDEOS -->
+  <section id="tab-videos" class="panel" hidden>
+    <div id="videoStatus" class="status hint">Digite um site acima para ver os vídeos arquivados.</div>
+    <div id="videoGrid" class="tiles vtiles"></div>
+    <div class="center"><button id="videoMore" class="btn" hidden>Carregar mais vídeos</button></div>
+  </section>
+
+  <!-- BIBLIOTECA -->
+  <section id="tab-library" class="panel" hidden>
+    <div class="toolbar">
+      <div class="seg" id="libSeg" role="group" aria-label="Tipo">
+        <button data-kind="all" class="on">Tudo</button>
+        <button data-kind="page">Páginas</button>
+        <button data-kind="image">Fotos</button>
+        <button data-kind="video">Vídeos</button>
+      </div>
+      <input id="libFilter" class="inline-input" type="search" placeholder="Filtrar por endereço" aria-label="Filtrar biblioteca">
+    </div>
+    <div id="libStatus" class="status hint" hidden></div>
+    <div id="libGrid" class="lib-grid"></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  Datas e horas em UTC, como no Wayback Machine. Se o quadro de uma captura ficar vazio, a captura mais próxima daquele link é de fora de 2025–2026 e foi bloqueada de propósito.
+</footer>
+
+<!-- VISUALIZADOR DE PÁGINA -->
+<div id="viewer" class="overlay" hidden>
+  <div class="vbar">
+    <div class="vtitle">
+      <span id="vUrl" class="vurl"></span>
+      <span id="vDate" class="vdate"></span>
+    </div>
+    <div class="vctrls">
+      <button id="vPrev" class="btn small" title="Captura anterior (←)">◀</button>
+      <span id="vPos" class="vpos"></span>
+      <button id="vNext" class="btn small" title="Próxima captura (→)">▶</button>
+      <button id="vJs" class="btn small" title="Desligar o JavaScript da captura costuma eliminar telas de login criadas por script">JavaScript: ligado</button>
+      <button id="vDiag" class="btn small" title="Copia um relatório do que está na tela da captura (para ajustar a remoção de telas de login)">Diagnóstico</button>
+      <button id="vStar" class="btn small">☆ Salvar</button>
+      <button id="vHtml" class="btn small" title="Baixar o HTML original desta captura">Baixar HTML</button>
+      <div class="popwrap">
+        <button id="vShot" class="btn small">Tirar print</button>
+        <div id="shotPop" class="pop" hidden></div>
+      </div>
+      <a id="vOpen" class="btn small" target="_blank" rel="noopener">Abrir no Wayback</a>
+      <button id="vClose" class="btn small ghost" title="Fechar (Esc)">✕</button>
+    </div>
+  </div>
+  <div class="vbody">
+    <div id="vLoader" class="vloader"><div class="spinner"></div><span>Carregando captura…</span></div>
+    <iframe id="vFrame" title="Captura arquivada" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe>
+  </div>
+</div>
+
+<!-- VISUALIZADOR DE FOTO / VÍDEO -->
+<div id="lightbox" class="overlay" hidden>
+  <div class="vbar">
+    <div class="vtitle">
+      <span id="lbName" class="vurl"></span>
+      <span id="lbDate" class="vdate"></span>
+    </div>
+    <div class="vctrls">
+      <button id="lbStar" class="btn small">☆ Salvar</button>
+      <a id="lbOpen" class="btn small" target="_blank" rel="noopener">Abrir no Wayback</a>
+      <button id="lbClose" class="btn small ghost" title="Fechar (Esc)">✕</button>
+    </div>
+  </div>
+  <div class="lbody">
+    <div id="lbStage" class="lstage"></div>
+    <aside id="lbSide" class="lside"></aside>
+  </div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script src="android-shim.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

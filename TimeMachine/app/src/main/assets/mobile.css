@@ -1,0 +1,45 @@
+/* Ajustes para tela de celular (aplicativo Android) */
+* { -webkit-tap-highlight-color: transparent; }
+button, .btn, select, input[type=text], input[type=search] { min-height: 42px; }
+body { overscroll-behavior-y: contain; }
+
+@media (max-width: 760px) {
+  body { font-size: 15px; }
+  .top { position: static; padding: 10px 12px; gap: 10px; }
+  .brand { min-width: 0; }
+  .brand-text strong { font-size: 19px; }
+  .brand-text span { display: none; }
+  .search { flex: 1 1 100%; min-width: 0; flex-wrap: wrap; }
+  .search input[type=text] { flex: 1 1 100%; }
+  .search select, .search .btn { flex: 1 1 auto; }
+  .top-actions { width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  .tabs { overflow-x: auto; padding: 0 6px; scrollbar-width: none; }
+  .tab { white-space: nowrap; flex: 0 0 auto; }
+  main { padding: 14px 10px 8px; }
+
+  .toolbar { flex-wrap: wrap; gap: 8px; }
+  .seg { flex-wrap: wrap; }
+
+  .grid-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .grid-table .url { max-width: 60vw; }
+
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .tiles.vtiles { grid-template-columns: 1fr; }
+  .lib-grid { grid-template-columns: 1fr; }
+
+  /* visualizador de página */
+  .vbar { padding: 6px 8px; gap: 6px; }
+  .vtitle { flex: 1 1 100%; }
+  .vctrls { width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-bottom: 2px; scrollbar-width: none; }
+  .vctrls .btn { flex: 0 0 auto; white-space: nowrap; }
+  .vpos { min-width: 0; white-space: nowrap; }
+  .pop { position: fixed; left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; max-height: 75vh; overflow: auto; }
+
+  /* visualizador de foto/vídeo */
+  .lstage { padding: 6px; }
+  .lside { padding: 12px; max-height: 45vh; }
+
+  .toasts { left: 8px; right: 8px; bottom: 8px; max-width: none; }
+  .foot { padding: 14px 12px; font-size: 12px; }
+}

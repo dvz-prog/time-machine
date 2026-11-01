@@ -1,0 +1,40 @@
+TIME MACHINE PARA ANDROID (capturas de 2025 e 2026)
+===================================================
+Mesmo app da extensão, agora como aplicativo para celular (Android 10 ou mais novo).
+
+COMO GERAR O APK (escolha UMA das opções)
+
+OPÇÃO A: Android Studio (no computador)
+1. Instale o Android Studio (gratuito): https://developer.android.com/studio
+2. Extraia este ZIP em uma pasta.
+3. No Android Studio: File > Open > escolha a pasta "TimeMachine".
+4. Espere o "Gradle Sync" terminar (baixa as ferramentas na primeira vez).
+5. Menu Build > Build Bundle(s) / APK(s) > Build APK(s).
+6. Clique em "locate" na mensagem final. O arquivo é app-debug.apk
+   (fica em app/build/outputs/apk/debug/).
+7. Passe o APK para o celular e abra. Se o Android pedir, permita
+   "Instalar apps de fontes desconhecidas" para o app que você usou para abrir o arquivo.
+
+   Para instalar direto do computador: ligue "Depuração USB" no celular, conecte o cabo
+   e clique no botão ▶ (Run) do Android Studio.
+
+OPÇÃO B: sem instalar nada, pelo GitHub
+1. Crie um repositório no GitHub e envie o conteúdo desta pasta (inclusive a pasta
+   .github).
+2. Abra a aba "Actions" > "Gerar APK" > "Run workflow".
+3. Quando terminar, baixe "TimeMachine-apk" em "Artifacts". Dentro está o app-debug.apk.
+
+COMO USAR
+- Digite um site e toque em "Buscar capturas".
+- Dá para compartilhar um link de outro app (ex.: Chrome > Compartilhar > Time machine).
+- Botão voltar do Android fecha o visualizador; fora dele, minimiza o app.
+- Downloads de fotos, vídeos e HTML vão para a pasta Downloads do celular.
+- "Tirar print" salva o que está na tela da captura (sem pedir permissão).
+- Telas de login e de confirmação de idade são removidas dentro das capturas, igual à extensão.
+- Biblioteca e histórico ficam guardados no próprio app.
+
+DIFERENÇAS EM RELAÇÃO À EXTENSÃO
+- O botão "JavaScript: desligado" também desliga a remoção de telas de login
+  (ela depende de script na captura).
+- Não existe modo anônimo no app.
+- Se o menu de download não aparecer, atualize o "Android System WebView" na Play Store.
