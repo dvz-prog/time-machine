@@ -12,14 +12,19 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Aceitar licencas do Android SDK
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
       - name: Compilar
-        run: gradle assembleDebug --no-daemon
+        run: |
+          echo "Arquivos na raiz:"; ls -la
+          F=$(find . -name settings.gradle.kts | head -n 1)
+          if [ -z "$F" ]; then echo "ERRO: settings.gradle.kts nao foi encontrado no repositorio"; exit 1; fi
+          DIR=$(dirname "$F")
+          echo "Projeto em: $DIR"
+          cd "$DIR"
+          gradle assembleDebug --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
         with:
           name: TimeMachine-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: '**/app-debug.apk'
